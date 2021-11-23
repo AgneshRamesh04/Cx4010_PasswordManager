@@ -47,8 +47,9 @@ class PasswordMgr {
 
   static addPassword(String enteredWebsite, String enteredUsername,
       String enteredPassword, String enteredDescription) async{
-    String urlStr =  connectionIP + 'addPassword/$enteredWebsite/$enteredUsername/'
-        '$enteredPassword/$enteredDescription/${UserMgr.userId}';
+
+    String urlStr = connectionIP + 'addPassword?website=$enteredWebsite&username=$enteredUsername&'
+        'password=$enteredPassword&desp=$enteredDescription&userId=${UserMgr.userId}';
     var url = Uri.parse(urlStr);
 
     final response = await http.get(url);
@@ -61,8 +62,10 @@ class PasswordMgr {
 
   static editPassword(String website, String username,
       String enteredPassword, String enteredDescription) async{
-    String urlStr = connectionIP + 'editPassword/$website/$username/'
-        '$enteredPassword/$enteredDescription/${UserMgr.userId}';
+
+    String urlStr = connectionIP + 'addPassword?website=$website&username=$username&'
+        'password=$enteredPassword&desp=$enteredDescription&userId=${UserMgr.userId}';
+
     var url = Uri.parse(urlStr);
 
     final response = await http.get(url);

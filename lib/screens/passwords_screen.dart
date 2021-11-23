@@ -45,10 +45,10 @@ class _PasswordsScreenState extends State<PasswordsScreen> {
     } else {
       return [
         const SizedBox(
-          height: 100,
+          height: 170,
         ),
         Icon(
-          Icons.star,
+          Icons.lock,
           color: Colors.grey[300],
           size: 80,
         ),

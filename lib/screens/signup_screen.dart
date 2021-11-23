@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_password_strength/flutter_password_strength.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:test_project/Controls/user_control.dart';
 import 'package:test_project/Widgets/buttons.dart';
@@ -74,9 +75,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onPressed: (){
                             String generatedPassword = "it worksss";
                             enteredConfirmPassword = generatedPassword;
-                            enteredPassword = generatedPassword;
-                            passwordtxtCntrl.text = generatedPassword;
                             repasswordtxtCntrl.text = generatedPassword;
+                            setState(() {
+                              enteredPassword = generatedPassword;
+                              passwordtxtCntrl.text = generatedPassword;
+                            });
                           },
                           child: const Text(
                             "Generate Password",
@@ -153,7 +156,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                 },
                                 onChanged: (value) {
-                                  enteredPassword = value;
+                                  setState(() {
+                                    enteredPassword = value;
+                                  });
                                 },
                                 cursorColor: Colors.white,
                                 maxLength: 30,
@@ -193,6 +198,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                             ),
+                            enteredPassword.isNotEmpty ?
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 0, left: 58, right: 100, bottom: 10),
+                                child: FlutterPasswordStrength(
+                                  backgroundColor: Colors.white,
+                                  password: enteredPassword,
+                                  strengthCallback: (strength){
+                                    debugPrint(strength.toString());
+                                  },
+                                  height: 10,
+                                  radius: 5,
+                                ),
+                              ):
+                              SizedBox(),
                             Container(
                               margin: const EdgeInsets.symmetric(
                                   vertical: 0, horizontal: 20),

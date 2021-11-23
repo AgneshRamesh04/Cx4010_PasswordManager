@@ -34,6 +34,7 @@ dependencies:
   file_picker: ^4.2.3
   google_fonts:
   cryptography: ^2.0.5
+  flutter_password_strength: ^0.1.6
 
 
 dev_dependencies:
