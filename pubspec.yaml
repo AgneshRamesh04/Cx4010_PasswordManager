@@ -1,4 +1,4 @@
-name: test_project
+name: PasswordManager
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -34,6 +34,7 @@ dependencies:
   file_picker: ^4.2.3
   google_fonts:
   cryptography: ^2.0.5
+  encrypt: ^5.0.1
   flutter_password_strength: ^0.1.6
 
 

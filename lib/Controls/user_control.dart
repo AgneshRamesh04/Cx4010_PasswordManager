@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:test_project/Controls/passwords_control.dart';
+import 'package:PasswordManager/Controls/passwords_control.dart';
+
+import 'package:encrypt/encrypt.dart';
+import 'package:pointycastle/asymmetric/api.dart';
 
 import '../constants.dart';
 
@@ -20,10 +24,8 @@ class UserMgr {
      String enteredUsername, String enteredPassword) async {
 
       final message = utf8.encode(enteredPassword);
-      print(message);
       final algorithm = Sha256();
       final hash = await algorithm.hash(message);
-      print(hash);
       final passwordCT = base64.encode(hash.bytes);
 
       String urlStr = connectionIP + 'verify?username=$enteredUsername&password=$passwordCT';
@@ -38,6 +40,7 @@ class UserMgr {
         privateKey = result['pem'];
         publicKey = result['public_key'];
         websites = await PasswordMgr.getWebsites();
+        await rsa(passwordCT);
         return true;
       }
       return false;
@@ -50,16 +53,35 @@ class UserMgr {
     final hash = await algorithm.hash(message);
     final passwordCT = base64.encode(hash.bytes);
 
-    //Map myUser = {"Username" : enteredUsername, "Password" : passwordCT};
-
     String urlStr = connectionIP + 'addUser?username=$enteredUsername&password=$passwordCT';
 
-    print(urlStr);
     var url = Uri.parse(urlStr);
 
     final response = await http.get(url);
     final result = json.decode(response.body) as Map<String, dynamic>;
 
     return result["Status"];
+  }
+
+  static rsa(String password) async{
+
+    //final privKey = await parseKeyFromFile<RSAPrivateKey>('test/private.pem');   //We can use this if the private key is stored in a file
+
+    final parser = RSAKeyParser();
+    // the public key is retrieved and stored in a global variable when the user login
+    final pubKey =  parser.parse(publicKey) as RSAPublicKey;
+    print(pubKey);
+    const plainText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
+
+    //final encrypter = Encrypter(RSA(publicKey: pubKey, privateKey: privKey));
+
+    //final encrypted = encrypter.encrypt(plainText);
+    //final decrypted = encrypter.decrypt(encrypted);
+
+    //print(decrypted); // Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    //print(encrypted.base64); // kO9EbgbrSwiq0EYz0aBdljHSC/rci2854Qa+nugbhKjidlezNplsEqOxR+pr1RtICZGAtv0YGevJBaRaHS17eHuj7GXo1CM3PR6pjGxrorcwR5Q7/bVEePESsimMbhHWF+AkDIX4v0CwKx9lgaTBgC8/yJKiLmQkyDCj64J3JSE=
+
+
+    //print(data);
   }
 }

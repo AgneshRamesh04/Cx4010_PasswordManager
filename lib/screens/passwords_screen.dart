@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:test_project/Controls/passwords_control.dart';
-import 'package:test_project/Controls/user_control.dart';
-import 'package:test_project/Widgets/card_widget.dart';
-import 'package:test_project/Widgets/popup_screen.dart';
+import 'package:PasswordManager/Controls/passwords_control.dart';
+import 'package:PasswordManager/Controls/user_control.dart';
+import 'package:PasswordManager/Widgets/card_widget.dart';
+import 'package:PasswordManager/Widgets/popup_screen.dart';
 
 import '../constants.dart';
 

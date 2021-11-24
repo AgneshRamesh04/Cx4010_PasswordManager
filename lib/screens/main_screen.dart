@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/Controls/passwords_control.dart';
+import 'package:PasswordManager/Controls/passwords_control.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:test_project/Widgets/buttons.dart';
-import 'package:test_project/screens/login_screen.dart';
-import 'package:test_project/screens/passwords_screen.dart';
+import 'package:PasswordManager/Widgets/buttons.dart';
+import 'package:PasswordManager/screens/login_screen.dart';
+import 'package:PasswordManager/screens/passwords_screen.dart';
 
 import 'add_password_screen.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:test_project/Controls/passwords_control.dart';
-import 'package:test_project/Widgets/buttons.dart';
-import 'package:test_project/screens/main_screen.dart';
+import 'package:PasswordManager/Controls/passwords_control.dart';
+import 'package:PasswordManager/Widgets/buttons.dart';
+import 'package:PasswordManager/screens/main_screen.dart';
 import 'package:flutter_password_strength/flutter_password_strength.dart';
 
 class AddPasswordScreen extends StatefulWidget {

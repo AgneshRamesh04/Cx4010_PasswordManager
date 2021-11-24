@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_password_strength/flutter_password_strength.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:test_project/Controls/user_control.dart';
-import 'package:test_project/Widgets/buttons.dart';
+import 'package:PasswordManager/Controls/user_control.dart';
+import 'package:PasswordManager/Widgets/buttons.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

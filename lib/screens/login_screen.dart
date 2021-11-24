@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:test_project/Controls/user_control.dart';
+import 'package:PasswordManager/Controls/user_control.dart';
 
-import 'package:test_project/Widgets/buttons.dart';
-import 'package:test_project/screens/signup_screen.dart';
+import 'package:PasswordManager/Widgets/buttons.dart';
+import 'package:PasswordManager/screens/signup_screen.dart';
 import 'forgot_password_screen.dart';
 import 'main_screen.dart';
 

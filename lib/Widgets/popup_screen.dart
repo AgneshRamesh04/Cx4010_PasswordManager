@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:test_project/Controls/passwords_control.dart';
-import 'package:test_project/screens/add_password_screen.dart';
+import 'package:PasswordManager/Controls/passwords_control.dart';
+import 'package:PasswordManager/screens/add_password_screen.dart';
 import 'package:flutter/services.dart';
 
 class PopupScreen extends StatelessWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/screens/add_password_screen.dart';
-import 'package:test_project/screens/forgot_password_screen.dart';
-import 'package:test_project/screens/login_screen.dart';
-import 'package:test_project/screens/main_screen.dart';
-import 'package:test_project/screens/passwords_screen.dart';
-import 'package:test_project/screens/signup_screen.dart';
+import 'package:PasswordManager/screens/add_password_screen.dart';
+import 'package:PasswordManager/screens/forgot_password_screen.dart';
+import 'package:PasswordManager/screens/login_screen.dart';
+import 'package:PasswordManager/screens/main_screen.dart';
+import 'package:PasswordManager/screens/passwords_screen.dart';
+import 'package:PasswordManager/screens/signup_screen.dart';
 
 void main()  {
   //WidgetsFlutterBinding.ensureInitialized();
