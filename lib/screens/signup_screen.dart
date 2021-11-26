@@ -23,6 +23,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var passwordtxtCntrl = TextEditingController();
   var repasswordtxtCntrl = TextEditingController();
 
+  bool strongPassword = false;
+
   String enteredUsername = "";
   String enteredPassword = "";
   String enteredConfirmPassword = "";
@@ -148,9 +150,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Password';
                                   }
-                                  else if (value.length < 6){
-                                    return "Password must contain atleast 6 characters";
-                                  }
                                   else{
                                     return null;
                                   }
@@ -206,6 +205,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   backgroundColor: Colors.white,
                                   password: enteredPassword,
                                   strengthCallback: (strength){
+                                    if(strength>=0.5){
+                                      strongPassword = true;
+                                    }
                                     debugPrint(strength.toString());
                                   },
                                   height: 10,
@@ -274,6 +276,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             LoginButton(
                               onPress: () async {
                                 if (_formKey.currentState!.validate()) {
+                                  if (!strongPassword){
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return const AlertDialog(
+                                          title: Text("Weak Password"),
+                                          content: Text(
+                                              "Please enter a stronger password."),
+                                        );
+                                      },
+                                    );
+                                    return;
+                                  }
                                   setState(() {
                                     _loading = true;
                                   });

@@ -24,6 +24,8 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
   var passwordtxtCntrl = TextEditingController();
   var repasswordtxtCntrl = TextEditingController();
 
+  bool strongPassword = false;
+
   String enteredWebsite = "";
   String enteredUsername = "";
   String enteredPassword = "";
@@ -266,9 +268,12 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                               child: FlutterPasswordStrength(
                                 backgroundColor: Colors.lightBlue.shade200,
                                 password: enteredPassword,
-                                // strengthCallback: (strength){
-                                //   debugPrint(strength.toString());
-                                // },
+                                strengthCallback: (strength){
+                                  if(strength>=0.5){
+                                    strongPassword = true;
+                                  }
+                                  debugPrint(strength.toString());
+                                },
                                 height: 10,
                                 radius: 5,
                               ),
@@ -333,7 +338,7 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                             margin: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 20),
                             child: TextFormField(
-                              initialValue: edit ? args[4]:null,
+                              initialValue: edit ? args[5]:null,
                               onChanged: (value) {
                                 enteredDescription = value;
                               },
@@ -370,6 +375,19 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                             width: 200,
                             onPress: () async {
                               if (_formKey.currentState!.validate()) {
+                                if (!strongPassword){
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return const AlertDialog(
+                                        title: Text("Weak Password"),
+                                        content: Text(
+                                            "Please enter a stronger password."),
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
                                 setState(() {
                                   _loading = true;
                                 });

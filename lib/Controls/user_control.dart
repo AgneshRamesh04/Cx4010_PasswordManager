@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cryptography/cryptography.dart';
+import 'package:encrypt/encrypt_io.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,7 +15,6 @@ import '../constants.dart';
 class UserMgr {
   static String username = "";
   static int userId = 0;
-  static var privateKey;
   static var publicKey;
   static List websites = [];
 
@@ -37,10 +37,9 @@ class UserMgr {
       if(result['verification'] == true){
         username = result['username'];
         userId = result['id'];
-        privateKey = result['pem'];
         publicKey = result['public_key'];
         websites = await PasswordMgr.getWebsites();
-        await rsa(passwordCT);
+        //await rsa(passwordCT);
         return true;
       }
       return false;
@@ -63,24 +62,47 @@ class UserMgr {
     return result["Status"];
   }
 
-  static rsa(String password) async{
-
-    //final privKey = await parseKeyFromFile<RSAPrivateKey>('test/private.pem');   //We can use this if the private key is stored in a file
-
+  static rsa_decrypt(var passwordCT) async{
     final parser = RSAKeyParser();
-    // the public key is retrieved and stored in a global variable when the user login
-    final pubKey =  parser.parse(publicKey) as RSAPublicKey;
-    print(pubKey);
-    const plainText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
+    final _loadedData = await rootBundle.loadString("assets/keys/${UserMgr.username}_private.pem");
+    final privKey =  parser.parse(_loadedData) as RSAPrivateKey;
+    print(passwordCT);
+    final pubKey =  parser.parse(UserMgr.publicKey) as RSAPublicKey;
 
-    //final encrypter = Encrypter(RSA(publicKey: pubKey, privateKey: privKey));
+    //print(pubKey);
+    //const plainText = 'trail test text';
+    final encrypter = Encrypter(RSA(publicKey: pubKey, privateKey: privKey));
 
+    final CT = Encrypted.fromBase64(passwordCT);
+    final ct1 = Encrypted.fromBase16(passwordCT);
+
+    print(CT.base16);
     //final encrypted = encrypter.encrypt(plainText);
-    //final decrypted = encrypter.decrypt(encrypted);
+    final decrypted = encrypter.decrypt(ct1);
 
-    //print(decrypted); // Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    print(decrypted); // Lorem ipsum dolor sit amet, consectetur adipiscing elit
     //print(encrypted.base64); // kO9EbgbrSwiq0EYz0aBdljHSC/rci2854Qa+nugbhKjidlezNplsEqOxR+pr1RtICZGAtv0YGevJBaRaHS17eHuj7GXo1CM3PR6pjGxrorcwR5Q7/bVEePESsimMbhHWF+AkDIX4v0CwKx9lgaTBgC8/yJKiLmQkyDCj64J3JSE=
+    return decrypted;
 
+    //print(data);
+  }
+
+  static rsa_encrypt(String password) async{
+    final parser = RSAKeyParser();
+    final _loadedData = await rootBundle.loadString("assets/keys/${UserMgr.username}_private.pem");
+    final privKey =  parser.parse(_loadedData) as RSAPrivateKey;
+    final pubKey =  parser.parse(UserMgr.publicKey) as RSAPublicKey;
+
+    //print(pubKey);
+    //const plainText = 'trail test text';
+    final encrypter = Encrypter(RSA(publicKey: pubKey, privateKey: privKey));
+
+    final encrypted = encrypter.encrypt(password);
+    //final decrypted = encrypter.decrypt(ct1);
+
+    print(encrypted.bytes); // Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    return encrypted.bytes; // kO9EbgbrSwiq0EYz0aBdljHSC/rci2854Qa+nugbhKjidlezNplsEqOxR+pr1RtICZGAtv0YGevJBaRaHS17eHuj7GXo1CM3PR6pjGxrorcwR5Q7/bVEePESsimMbhHWF+AkDIX4v0CwKx9lgaTBgC8/yJKiLmQkyDCj64J3JSE=
+    //return decrypted;
 
     //print(data);
   }

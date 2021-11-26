@@ -19,13 +19,18 @@ class PasswordMgr {
   }
 
   static Future<List> getPassword(List pass) async {
-    String urlStr = connectionIP + 'getPassword/$pass';
+    String urlStr = connectionIP + 'getPassword/$pass/${UserMgr.userId}';
     var url = Uri.parse(urlStr);
 
     final response = await http.get(url);
     final result = json.decode(response.body) as Map<String, dynamic>;
 
     return result["Password"];
+
+    List password = result["Password"];
+    password[3] = await UserMgr.rsa_decrypt(password[3]);
+    print(password);
+    return password;
   }
 
   static deletePassword(List pass) async{
@@ -48,6 +53,8 @@ class PasswordMgr {
   static addPassword(String enteredWebsite, String enteredUsername,
       String enteredPassword, String enteredDescription) async{
 
+    //final CT = await UserMgr.rsa_encrypt(enteredPassword);
+
     String urlStr = connectionIP + 'addPassword?website=$enteredWebsite&username=$enteredUsername&'
         'password=$enteredPassword&desp=$enteredDescription&userId=${UserMgr.userId}';
     var url = Uri.parse(urlStr);
@@ -63,7 +70,7 @@ class PasswordMgr {
   static editPassword(String website, String username,
       String enteredPassword, String enteredDescription) async{
 
-    String urlStr = connectionIP + 'addPassword?website=$website&username=$username&'
+    String urlStr = connectionIP + 'editPassword?website=$website&username=$username&'
         'password=$enteredPassword&desp=$enteredDescription&userId=${UserMgr.userId}';
 
     var url = Uri.parse(urlStr);
