@@ -3,6 +3,8 @@ import 'package:flutter_password_strength/flutter_password_strength.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:PasswordManager/Controls/user_control.dart';
 import 'package:PasswordManager/Widgets/buttons.dart';
+import 'package:PasswordManager/Controls/passwords_control.dart';
+//import 'package:secure_random/secure_random.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -75,7 +77,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: FlatButton(
                           padding: const EdgeInsets.all(2),
                           onPressed: (){
-                            String generatedPassword = "it worksss";
+                            String generatedPassword = Utils.CreateCryptoRandomString();
+
+                            while(Utils.isPasswordCompliant(generatedPassword, 6) == false){
+                              generatedPassword = Utils.CreateCryptoRandomString();
+                            }
+
                             enteredConfirmPassword = generatedPassword;
                             repasswordtxtCntrl.text = generatedPassword;
                             setState(() {
@@ -115,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     return null;
                                   },
                                   onChanged: (value) {
-                                    enteredUsername = value;
+                                    enteredUsername = value.trim();
                                   },
                                   cursorColor: Colors.white,
                                   maxLength: 30,
@@ -150,13 +157,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Password';
                                   }
+                                  else if (value.length < 6){
+                                    return "Password must contain atleast 6 characters";
+                                  }
                                   else{
                                     return null;
                                   }
                                 },
                                 onChanged: (value) {
                                   setState(() {
-                                    enteredPassword = value;
+                                    enteredPassword = value.trim();
                                   });
                                 },
                                 cursorColor: Colors.white,
@@ -230,7 +240,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   return null;
                                 },
                                 onChanged: (value) {
-                                  enteredConfirmPassword = value;
+                                  enteredConfirmPassword = value.trim();
                                 },
                                 cursorColor: Colors.white,
                                 maxLength: 30,
@@ -276,14 +286,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             LoginButton(
                               onPress: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  if (!strongPassword){
+                                  if (!strongPassword || !Utils.isPasswordCompliant(enteredPassword)){
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
                                         return const AlertDialog(
                                           title: Text("Weak Password"),
                                           content: Text(
-                                              "Please enter a stronger password."),
+                                              "Password must contain atleast one lower case [a-z], one upper case [A-Z], "
+                                                  "one number [0-9] and a special character."),
                                         );
                                       },
                                     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:PasswordManager/Controls/passwords_control.dart';
 import 'package:PasswordManager/Widgets/buttons.dart';
-import 'package:PasswordManager/screens/main_screen.dart';
+import 'package:PasswordManager/screens/home_screen.dart';
 import 'package:flutter_password_strength/flutter_password_strength.dart';
 
 class AddPasswordScreen extends StatefulWidget {
@@ -98,7 +98,12 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                       child: FlatButton(
                         padding: const EdgeInsets.all(2),
                         onPressed: (){
-                          String generatedPassword = "it worksss";
+                          String generatedPassword = Utils.CreateCryptoRandomString();
+
+                          while(Utils.isPasswordCompliant(generatedPassword, 6) == false){
+                            generatedPassword = Utils.CreateCryptoRandomString();
+                          }
+
                           enteredConfirmPassword = generatedPassword;
                           repasswordtxtCntrl.text = generatedPassword;
                           setState(() {
@@ -137,9 +142,9 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                                 return null;
                               },
                               onChanged: (value) {
-                                enteredWebsite = value;
+                                enteredWebsite = value.trim();
                               },
-                              cursorColor: Colors.white,
+                              cursorColor: Colors.black,
                               maxLength: 30,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.web, color: Color(0xFF3B3F41)),
@@ -176,9 +181,9 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                                 return null;
                               },
                               onChanged: (value) {
-                                enteredUsername = value;
+                                enteredUsername = value.trim();
                               },
-                              cursorColor: Colors.white,
+                              cursorColor: Colors.black,
                               maxLength: 30,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.person, color: Color(0xFF3B3F41)),
@@ -220,10 +225,10 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                               },
                               onChanged: (value) {
                                 setState(() {
-                                  enteredPassword = value;
+                                  enteredPassword = value.trim();
                                 });
                               },
-                              cursorColor: Colors.white,
+                              cursorColor: Colors.black,
                               maxLength: 30,
                               obscureText: _obscureText,
                               decoration: InputDecoration(
@@ -294,9 +299,9 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                                 return null;
                               },
                               onChanged: (value) {
-                                enteredConfirmPassword = value;
+                                enteredConfirmPassword = value.trim();
                               },
-                              cursorColor: Colors.white,
+                              cursorColor: Colors.black,
                               maxLength: 30,
                               obscureText: _obscureConfirmText,
                               decoration: InputDecoration(
@@ -340,9 +345,9 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                             child: TextFormField(
                               initialValue: edit ? args[5]:null,
                               onChanged: (value) {
-                                enteredDescription = value;
+                                enteredDescription = value.trim();
                               },
-                              cursorColor: Colors.white,
+                              cursorColor: Colors.black,
                               maxLength: 30,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.note, color: Color(0xFF3B3F41)),
@@ -375,14 +380,15 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                             width: 200,
                             onPress: () async {
                               if (_formKey.currentState!.validate()) {
-                                if (!strongPassword){
+                                if (!strongPassword || !Utils.isPasswordCompliant(enteredPassword)){
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext dialogContext) {
                                       return const AlertDialog(
                                         title: Text("Weak Password"),
                                         content: Text(
-                                            "Please enter a stronger password."),
+                                            "Password must contain atleast one lower case [a-z], one upper case [A-Z], "
+                                                "one number [0-9] and a special character."),
                                       );
                                     },
                                   );

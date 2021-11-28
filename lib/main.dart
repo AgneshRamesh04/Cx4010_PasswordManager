@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:PasswordManager/screens/add_password_screen.dart';
 import 'package:PasswordManager/screens/forgot_password_screen.dart';
 import 'package:PasswordManager/screens/login_screen.dart';
-import 'package:PasswordManager/screens/main_screen.dart';
+import 'package:PasswordManager/screens/home_screen.dart';
 import 'package:PasswordManager/screens/passwords_screen.dart';
 import 'package:PasswordManager/screens/signup_screen.dart';
 
 void main()  {
   //WidgetsFlutterBinding.ensureInitialized();
   //await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {

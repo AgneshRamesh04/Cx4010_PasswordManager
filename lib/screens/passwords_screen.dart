@@ -5,7 +5,7 @@ import 'package:PasswordManager/Controls/user_control.dart';
 import 'package:PasswordManager/Widgets/card_widget.dart';
 import 'package:PasswordManager/Widgets/popup_screen.dart';
 
-import '../constants.dart';
+import '../connection_ip.dart';
 
 class PasswordsScreen extends StatefulWidget {
   const PasswordsScreen({Key? key}) : super(key: key);

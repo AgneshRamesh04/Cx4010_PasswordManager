@@ -4,8 +4,7 @@ import 'package:PasswordManager/Controls/user_control.dart';
 
 import 'package:PasswordManager/Widgets/buttons.dart';
 import 'package:PasswordManager/screens/signup_screen.dart';
-import 'forgot_password_screen.dart';
-import 'main_screen.dart';
+import 'home_screen.dart';
 
 /// Unique Key for the form displayed on the screen
 final _formKey = GlobalKey<FormState>();
@@ -133,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // FlatButton(
                       //   onPressed: () {
                       //     Navigator.pushNamed(
-                      //         context, ForgotPasswordScreen.id);
+                      //         context, OTPScreen.id);
                       //   },
                       //   child: const Text(
                       //     'Forgot Password?',
