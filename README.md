@@ -1,7 +1,3 @@
-o	The main README.md file at the root of your repository should describe your project for laymen.
-o	It should contain brief sections for motivation, research, design, development, use of the code.
-o	Suggestion : Focus more on the application and usage of your code rather than the core theory.
-
 # Password Manager
 ## Introduction 
 This Password manager is a one stop solution to storing all your passwords securely and efficiently and all you need to do is remember one master password. To ensure that your password is stored securely we make use of state-of-the-art symmetric encryption (AES-128), asymmetric encryption RSA (Rivest-Shamir-Adleman) and digital signature methods(Ed25519).
